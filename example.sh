@@ -1,6 +1,6 @@
 #!/bin/bash
 
-MALLET_BIN_DIR="~/mallet/bin"
+MALLET_BIN_DIR=$MALLET/bin
 INPUT_FILE="../data/acl/acl.jsonlist.gz"
 BACKGROUND_FILE="../data/nips/nips.jsonlist.gz"
 DATA_OUPUT_DIR="acl_example/processing/"

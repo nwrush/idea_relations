@@ -9,3 +9,6 @@
 *.blg
 *.DS_Store
 data
+
+venv2.7/
+acl_example/
