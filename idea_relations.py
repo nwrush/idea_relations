@@ -80,7 +80,7 @@ def get_time_grouped_articles(articles, group_by="year", start_time=1980,
 
 
 def get_time_series(info_dict, num_ideas, normalize=False):
-    keys = info_dict.keys()
+    keys = list(info_dict.keys())
     keys.sort()
     ts_matrix = np.zeros((num_ideas, len(keys)))
     for i, k in enumerate(keys):
@@ -190,7 +190,7 @@ def get_combined_extreme_pairs(pmi, corr, idea_names, output_file, count=100):
                 pair_type = "head-to-head"
             if pmi[i, j] > 0 and corr[i, j] < 0:
                 pair_type = "tryst"
-            fout.write(u"%s\t%f\t%f\t%f\t%s\t%s\n" % (pair_type,
+            fout.write("%s\t%f\t%f\t%f\t%s\t%s\n" % (pair_type,
                 combined[i, j], pmi[i, j], corr[i, j],
                 idea_names[i], idea_names[j]))
 
@@ -212,7 +212,7 @@ def plot_top_pairs(articles, idea_names, prefix, num_ideas,
                 continue
             type_list[parts[0]].append((float(parts[2]), 
                 parts[4], parts[5]))
-    xvalues = range(ts_matrix.shape[1])
+    xvalues = list(range(ts_matrix.shape[1]))
     filename_map = {}
     for category in ["friends", "arms-race", "head-to-head", "tryst"]:
         for rank, t in enumerate(type_list[category][:top]):
@@ -220,7 +220,7 @@ def plot_top_pairs(articles, idea_names, prefix, num_ideas,
             fig, filename = plot_pair(ts_matrix, idea_names, fst, snd,
                                       category, prefix, output_dir,
                                       save_file=True, 
-                                      xticklabels=articles_group.keys(),
+                                      xticklabels=list(articles_group.keys()),
                                       step=5,
                                       ylabel="frequency",
                                       xlabel="time periods",
@@ -243,7 +243,7 @@ def plot_pair(ts_matrix, idea_names, fst, snd, category, prefix, output_dir,
         reverse_idea_names = utils.get_reverse_dict(idea_names)
     else:
         reverse_idea_names = {d: i for (i, d) in enumerate(idea_names)}
-    xvalues = range(ts_matrix.shape[1])
+    xvalues = list(range(ts_matrix.shape[1]))
     filename = "%s/%s_%s_%s_%s.pdf" % (output_dir, prefix, category,
                                        fst[:15].replace(" ", "_"),
                                        snd[:15].replace(" ", "_"))
@@ -353,7 +353,7 @@ def generate_all_outputs(articles, num_ideas, idea_names, prefix,
                             "%s/%s_top_50.tex" % (table_dir, prefix),
                             top=50)
     # generate pdf
-    for k in info.keys():
+    for k in list(info.keys()):
         info[k] = info[k][len(output_dir) + 1:]
         if info[k].endswith(".pdf"):
             info[k] = "{{%s}%s}" % (info[k][:-4], info[k][-4:])

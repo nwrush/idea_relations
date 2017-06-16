@@ -9,6 +9,9 @@
 *.blg
 *.DS_Store
 data
+__pycache__/
 
+venv/
 venv2.7/
 acl_example/
+*.bak

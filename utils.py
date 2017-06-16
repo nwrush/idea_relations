@@ -38,9 +38,9 @@ def get_log_pmi(xy, x, y, total, add_one=1.0):
 
 def write_word_dict(vocab_dict, word_count, filename):
     with io.open(filename, mode="w", encoding="utf-8") as fout:
-        ids = vocab_dict.values()
+        ids = list(vocab_dict.values())
         ids.sort()
-        reverse_dict = {i: w for (w, i) in vocab_dict.iteritems()}
+        reverse_dict = {i: w for (w, i) in vocab_dict.items()}
         for wid in ids:
             fout.write("%d\t%s\t%d\n" % (wid, reverse_dict[wid],
                 word_count[reverse_dict[wid]]))
@@ -58,7 +58,7 @@ def read_word_dict(filename, vocab_size=-1):
                 wid, word, _ = line.strip().split("\t")
                 vocab_map[int(wid)] = word
             except:
-                print line
+                print(line)
     return vocab_map
 
 
@@ -94,13 +94,13 @@ def write_latex_table(filename, cols, output_func):
 
 
 def get_reverse_dict(d):
-    return {i: w for (w, i) in d.iteritems()}
+    return {i: w for (w, i) in d.items()}
 
 
 
 def read_json_list(input_file):
-    with gzip.open(input_file) if input_file.endswith(".gz") \
-            else open(input_file) as fin:
+    with gzip.open(input_file, 'rt') if input_file.endswith(".gz") \
+            else open(input_file, 'r') as fin:
         for line in fin:
             obj = json.loads(line)
             yield obj

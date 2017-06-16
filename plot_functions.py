@@ -1,9 +1,9 @@
 """Adapt plot functions with seaborn to get more beautiful plots."""
 
-from __future__ import unicode_literals
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
+
+
+
+
 
 import logging
 import os
@@ -197,7 +197,7 @@ class SubsampleJointGrid(sns.JointGrid):
             Returns `self`.
         """
         if subsample > 0 and subsample < len(self.x):
-            indexes = np.random.choice(range(len(self.x)), subsample,
+            indexes = np.random.choice(list(range(len(self.x))), subsample,
                                        replace=False)
             plot_x = np.array([self.x[i] for i in indexes])
             plot_y = np.array([self.y[i] for i in indexes])
