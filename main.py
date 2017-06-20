@@ -60,7 +60,6 @@ parser.add_argument("--nostopwords",
                     action="store_true")
 args = parser.parse_args()
 
-
 def main():
     input_file = os.path.abspath(args.input_file)
     data_output_dir = os.path.abspath(args.data_output_dir)
