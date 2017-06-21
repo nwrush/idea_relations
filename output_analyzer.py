@@ -37,7 +37,7 @@ def main():
     ax.set_xticklabels(x_tick_labels, rotation=45)
     plt.show()
 
-def pmi_corr_plot(articles, num_ideas, cooccur_func=None, group_by="years"):
+def retrieve_data(articles, num_ideas, cooccur_func=None, group_by="years"):
     result = li.get_count_cooccur(articles, func=cooccur_func)
     pmi = li.get_pmi(result["cooccur"], result["count"],
                   float(result["articles"]), num_ideas=num_ideas)
@@ -57,13 +57,46 @@ def pmi_corr_plot(articles, num_ideas, cooccur_func=None, group_by="years"):
             xs.append(ts_correlation[i, j])
             ys.append(pmi[i, j])
 
-    plt.plot(xs, ys)
+    plt.scatter(xs, ys)
     plt.savefig("pmi_corr_plot.png")
 
+    ts_matrix = li.get_time_series(info_dict, num_ideas, normalize=True)
 
-def plot_things(articles, idea_names, cooccur_func=None, group_by="years"):
-    num_ideas = len(idea_names)
-    pmi_corr_plot(articles, num_ideas, cooccur_func, group_by)
+    return (pmi, ts_correlation, ts_matrix)
+
+def time_series(info_dict, num_ideas, normalize=True):
+    return li.get_time_series(info_dict, num_ideas, normalize)
+
+
+def plot_things(articles, num_ideas, cooccur_func=None, group_by="years"):
+  
+    # Lifted from item_relations:generate_scatter_dist_plot
+    result = li.get_count_cooccur(articles, func=cooccur_func)
+    pmi = li.get_pmi(result["cooccur"], result["count"],
+                  float(result["articles"]), num_ideas=num_ideas)
+    articles_group = li.get_time_grouped_articles(articles, group_by=group_by)
+    info_dict = {k: li.get_count_cooccur(articles_group[k], func=cooccur_func)
+                 for k in articles_group}
+    ts_correlation = li.get_ts_correlation(info_dict, num_ideas,
+                                        normalize=True)
+
+    xs, ys = [], []
+    for i in range(num_ideas):
+        for j in range(i + 1, num_ideas):
+            if np.isnan(pmi[i, j]) or np.isnan(ts_correlation[i, j]):
+                continue
+            if np.isinf(pmi[i, j]) or np.isinf(ts_correlation[i, j]):
+                continue
+            xs.append(ts_correlation[i, j])
+            ys.append(pmi[i, j])
+
+    plt.scatter(xs, ys)
+    plt.savefig("pmi_corr_plot.png")
+
+    ts_matrix = li.get_time_series(info_dict, num_ideas, normalize=True)
+
+    return (pmi, ts_correlation, ts_matrix)
+    
 
 if __name__ == "__main__":
     main()

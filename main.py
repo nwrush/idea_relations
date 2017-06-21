@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import pickle
+
 import os
 import sys
 import functools
@@ -129,10 +131,14 @@ def main():
     else:
         logging.error("unsupported idea representations")
 
+    # Output for the visualizer
+    data = output_analyzer.plot_things(articles, len(idea_names), cooccur_func, group_by=args.group_by)
+    pickle.dump(data, open("data.p", 'wb'))
+
     # compute strength between pairs and generate outputs
-    il.generate_all_outputs(articles, num_ideas, idea_names, prefix,
-                            final_output_dir, cooccur_func,
-                            table_top=table_top, group_by=args.group_by)
+    #il.generate_all_outputs(articles, num_ideas, idea_names, prefix,
+    #                        final_output_dir, cooccur_func,
+    #                        table_top=table_top, group_by=args.group_by)
 
 
 if __name__ == "__main__":
