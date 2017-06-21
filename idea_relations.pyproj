@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{e86390e0-2744-4f2e-a67f-0eb081ba82df}</ProjectGuid>
     <ProjectHome />
-    <StartupFile>output_analyzer.py</StartupFile>
+    <StartupFile>main.py</StartupFile>
     <SearchPath />
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>

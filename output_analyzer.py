@@ -58,7 +58,7 @@ def pmi_corr_plot(articles, num_ideas, cooccur_func=None, group_by="years"):
             ys.append(pmi[i, j])
 
     plt.plot(xs, ys)
-    plt.show()
+    plt.savefig("pmi_corr_plot.png")
 
 
 def plot_things(articles, idea_names, cooccur_func=None, group_by="years"):
