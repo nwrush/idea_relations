@@ -10,6 +10,8 @@ import idea_relations as il
 import argparse
 import logging
 
+import output_analyzer
+
 logging.basicConfig(level=logging.INFO)
 
 parser = argparse.ArgumentParser()
