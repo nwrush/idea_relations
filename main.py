@@ -18,11 +18,9 @@ logging.basicConfig(level=logging.INFO)
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--option", type=str, choices=["topics", "keywords"],
-                    help=(
-                        "choose using topics or keywords to represent ideas,"
+                    help=("choose using topics or keywords to represent ideas,"
                         " mallet_bin_dir is required if topic is chosen,"
-                        " background_file is required if keywords is chosen."
-                    ),
+                        " background_file is required if keywords is chosen."),
                     default="topics")
 parser.add_argument("--input_file",
                     help=("input file, each line is a json object "
@@ -98,7 +96,7 @@ def main():
     if option == "topics":
         logging.info("using topics to represent ideas")
         prefix = "%s_topics" % prefix
-        # generate mallet topics        
+        # generate mallet topics
         mt.get_mallet_input_from_words(input_file, data_output_dir)
         if not mt.check_mallet_directory(data_output_dir):
             # run mallet to prepare topics inputs
@@ -122,8 +120,7 @@ def main():
         fl.get_top_distinguishing(input_file, other_files, data_output_dir,
                                   lexicon_file)
         # load keywords
-        articles, word_set, idea_names = fl.load_word_articles(
-            input_file,
+        articles, word_set, idea_names = fl.load_word_articles(input_file,
             lexicon_file,
             data_output_dir,
             vocab_size=num_ideas)
@@ -133,13 +130,12 @@ def main():
 
     # Output for the visualizer
     data = output_analyzer.plot_things(articles, len(idea_names), cooccur_func, group_by=args.group_by)
-    pickle.dump(data, open("data.p", 'wb'))
+    pickle.dump(data + (idea_names,), open("data.p", 'wb'))
 
     # compute strength between pairs and generate outputs
     #il.generate_all_outputs(articles, num_ideas, idea_names, prefix,
     #                        final_output_dir, cooccur_func,
     #                        table_top=table_top, group_by=args.group_by)
-
 
 if __name__ == "__main__":
     main()
