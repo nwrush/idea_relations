@@ -16,3 +16,5 @@ venv2.7/
 acl_example/
 *.bak
 *.whl
+*.p
+*.png
