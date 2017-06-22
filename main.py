@@ -130,6 +130,7 @@ def main():
 
     # Output for the visualizer
     data = output_analyzer.plot_things(articles, len(idea_names), cooccur_func, group_by=args.group_by)
+    # Output data is a tuple of the form: (pmi, ts_correlation, ts_matrix, idea_names)
     pickle.dump(data + (idea_names,), open("data.p", 'wb'))
 
     # compute strength between pairs and generate outputs
