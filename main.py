@@ -12,7 +12,10 @@ import idea_relations as il
 import argparse
 import logging
 
+import datetime
 import output_analyzer
+
+is_windows = os.name == 'nt'
 
 logging.basicConfig(level=logging.INFO)
 
@@ -67,6 +70,7 @@ def main():
     data_output_dir = os.path.abspath(args.data_output_dir)
     final_output_dir = os.path.abspath(args.final_output_dir)
     if not os.path.exists(data_output_dir):
+        print(data_output_dir)
         os.makedirs(data_output_dir)
     if not os.path.exists(final_output_dir):
         os.makedirs(final_output_dir)
@@ -97,14 +101,17 @@ def main():
         logging.info("using topics to represent ideas")
         prefix = "%s_topics" % prefix
         # generate mallet topics
-        mt.get_mallet_input_from_words(input_file, data_output_dir)
         if not mt.check_mallet_directory(data_output_dir):
+            mt.get_mallet_input_from_words(input_file, data_output_dir)
             # run mallet to prepare topics inputs
             # users can also generate mallet-style topic inputs inputs
             logging.info("running mallet to get topics")
             if not os.path.exists(os.path.join(args.mallet_bin_dir, 'mallet')):
                 sys.exit("Error: Unable to find mallet at %s" % args.mallet_bin_dir)
-            os.system("./mallet.sh %s %s %d" % (args.mallet_bin_dir,
+            if is_windows:
+                os.system(".\mallet.bat %s %s %d" % args.mallet_bin_dir, data_output_dir, num_ideas)
+            else:
+                os.system("./mallet.sh %s %s %d" % (args.mallet_bin_dir,
                                                 data_output_dir,
                                                 num_ideas))
         # load mallet outputs
@@ -117,14 +124,20 @@ def main():
         # idenfity keyword ideas using fighting lexicon
         lexicon_file = "%s/fighting_lexicon.txt" % data_output_dir
         other_files = [args.background_file]
+        print(datetime.datetime.now())
+        print("124")
         fl.get_top_distinguishing(input_file, other_files, data_output_dir,
                                   lexicon_file)
         # load keywords
+        print(datetime.datetime.now())
+        print("129")
         articles, word_set, idea_names = fl.load_word_articles(input_file,
             lexicon_file,
             data_output_dir,
             vocab_size=num_ideas)
         table_top = 10
+        print(datetime.datetime.now())
+        print("136")
     else:
         logging.error("unsupported idea representations")
 
