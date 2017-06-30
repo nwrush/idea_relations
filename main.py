@@ -124,20 +124,14 @@ def main():
         # idenfity keyword ideas using fighting lexicon
         lexicon_file = "%s/fighting_lexicon.txt" % data_output_dir
         other_files = [args.background_file]
-        print(datetime.datetime.now())
-        print("124")
         fl.get_top_distinguishing(input_file, other_files, data_output_dir,
                                   lexicon_file)
         # load keywords
-        print(datetime.datetime.now())
-        print("129")
         articles, word_set, idea_names = fl.load_word_articles(input_file,
             lexicon_file,
             data_output_dir,
             vocab_size=num_ideas)
         table_top = 10
-        print(datetime.datetime.now())
-        print("136")
     else:
         logging.error("unsupported idea representations")
 
