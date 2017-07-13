@@ -6,7 +6,7 @@ import pickle
 import numpy as np
 import matplotlib.pyplot as plt
 
-import idea_relations as li
+from data_processor import idea_relations as li
 
 def reverse_dictionary(input):
     output = dict()

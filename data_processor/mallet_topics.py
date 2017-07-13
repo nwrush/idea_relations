@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 
 import collections
-import os
 import functools
 import numpy as np
-import word_count as wc
-import utils
+import os
+
+from data_processor import utils
+from data_processor import word_count as wc
 
 
 def convert_word_count_mallet(word_dict, input_file, output_file,
@@ -65,7 +66,7 @@ def load_doc_topics(input_file, doc_topic_file, threshold=0.01):
             ideas = set([i for (i, v) in enumerate(ideas) 
                          if float(v) > threshold])
             articles.append(utils.IdeaArticle(fulldate=int(data["date"]),
-                                         ideas=ideas))
+                                              ideas=ideas))
     return articles
 
 

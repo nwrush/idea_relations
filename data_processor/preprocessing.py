@@ -5,10 +5,11 @@ Use NLTK for preprocessing.
 Feel free to switch to spacy.
 """
 
-from nltk.tokenize import wordpunct_tokenize
-from nltk.stem import WordNetLemmatizer
 from nltk.corpus import stopwords
-import utils
+from nltk.stem import WordNetLemmatizer
+from nltk.tokenize import wordpunct_tokenize
+
+from data_processor import utils
 
 LEMMATIZER = WordNetLemmatizer()
 STOPWORDS = set(stopwords.words('english'))

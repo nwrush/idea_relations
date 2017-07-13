@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 
-import functools
 import collections
+import functools
 import io
 import numpy as np
 import scipy.stats as ss
-import utils
+
+from data_processor import utils
 
 TopicPair = collections.namedtuple("TopicPair",
         ["combined_score", "pmi", "correlation",
@@ -50,7 +51,7 @@ def load_all_pairs(table_file):
 def get_top_relationship(table_file, output_file, top=5):
     type_list = load_all_pairs(table_file)
     utils.write_latex_table(output_file, "cccp{5cm}p{5cm}",
-            functools.partial(write_type_rows, data=type_list, top=top))
+                            functools.partial(write_type_rows, data=type_list, top=top))
 
 
 def get_relation_strength(table_file, top=10, normalize=False,
