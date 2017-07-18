@@ -139,7 +139,7 @@ def main():
     data = output_analyzer.plot_things(articles, len(idea_names), cooccur_func, group_by=args.group_by)
     # Output data is a tuple of the form: (pmi, ts_correlation, ts_matrix, idea_names)
     pickle.dump(data + (idea_names,), open("data.p", 'wb'))
-
+    print("Pancake")
     # compute strength between pairs and generate outputs
     #il.generate_all_outputs(articles, num_ideas, idea_names, prefix,
     #                        final_output_dir, cooccur_func,
