@@ -11,7 +11,7 @@ import re
 import scipy.stats as ss
 from nltk.corpus import stopwords
 
-from data_processor import utils
+import utils
 
 STOPWORDS = set(stopwords.words("english") + ["said"])
 

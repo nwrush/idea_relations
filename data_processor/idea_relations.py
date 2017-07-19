@@ -18,10 +18,10 @@ try:
     unimodality_test = True
 except:
     unimodality_test = False
-from data_processor import plot_functions as pf
-from data_processor import strength_table as st
-from data_processor import tex_output as to
-from data_processor import utils
+import plot_functions as pf
+import strength_table as st
+import tex_output as to
+import utils
 
 COLOR_DICT = {
     "friends": "blue green",

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="e976075d-9f09-4e11-80f0-6c0a31c35cc2" name="IntegratedTest" url="http://localhost">
+        <fileTransfer port="0" mountedRoot="C:\Users\rushni\Documents\dev\Clean\Visualizer\idea_relations" accessType="MOUNT" />
+      </webServer>
+    </option>
+  </component>
+</project>

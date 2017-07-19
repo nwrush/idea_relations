@@ -7,8 +7,8 @@ import math
 import numpy as np
 import os
 
-from data_processor import utils
-from data_processor import word_count as wc
+import utils
+import word_count as wc
 
 
 def get_uniform_alpha(first, second, count=1.0):

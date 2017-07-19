@@ -6,7 +6,7 @@ import io
 import numpy as np
 import scipy.stats as ss
 
-from data_processor import utils
+import utils
 
 TopicPair = collections.namedtuple("TopicPair",
         ["combined_score", "pmi", "correlation",

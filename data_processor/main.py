@@ -8,11 +8,11 @@ import os
 import pickle
 import sys
 
-from data_processor import fighting_lexicon as fl
-from data_processor import idea_relations as il
-from data_processor import mallet_topics as mt
-from data_processor import output_analyzer
-from data_processor import preprocessing
+import fighting_lexicon as fl
+import idea_relations as il
+import mallet_topics as mt
+import output_analyzer
+import preprocessing
 
 is_windows = os.name == 'nt'
 
@@ -69,10 +69,9 @@ def parse_arguments(args):
                               "If not given, no data will be stored"),
                         type=str,
                         default=None)
-    parser.add_argument("--create_graphs",
+    parser.add_argument("--no_create_graphs",
                         help=("whether to create graphs of relations"),
-                        type=bool,
-                        default=False)
+                        action="store_true")
 
     return parser.parse_args(args=args)
     
@@ -126,8 +125,8 @@ def main(args=None, parse_args=True):
                 os.system(".\mallet.bat %s %s %d" % (args.mallet_bin_dir, data_output_dir, num_ideas))
             else:
                 os.system("./mallet.sh %s %s %d" % (args.mallet_bin_dir,
-                                                data_output_dir,
-                                                num_ideas))
+                                                    data_output_dir,
+                                                    num_ideas))
         # load mallet outputs
         articles, vocab, idea_names = mt.load_articles(input_file,
                                                        data_output_dir)
@@ -155,9 +154,9 @@ def main(args=None, parse_args=True):
         # Output data is a tuple of the form: (pmi, ts_correlation, ts_matrix, idea_names)
         pickle.dump(data + (idea_names,), open(args.objects_location, 'wb'))
 
-    if args.create_graphs:
+    if not args.no_create_graphs:
         logging.info("Creating graphs")
-        #compute strength between pairs and generate outputs
+        # compute strength between pairs and generate outputs
         il.generate_all_outputs(articles, num_ideas, idea_names, prefix,
                                 final_output_dir, cooccur_func,
                                 table_top=table_top, group_by=args.group_by)

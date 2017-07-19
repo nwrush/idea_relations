@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" serverName="IntegratedTest">
+    <serverData>
+      <paths name="IntegratedTest">
+        <serverdata>
+          <mappings>
+            <mapping deploy="." local="$PROJECT_DIR$/data_processor" web="/" />
+            <mapping local="" />
+          </mappings>
+          <excludedPaths>
+            <excludedPath local="true" path="$PROJECT_DIR$/example_output" />
+            <excludedPath local="true" path="$PROJECT_DIR$/data_processor/acl_example" />
+          </excludedPaths>
+        </serverdata>
+      </paths>
+    </serverData>
+  </component>
+</project>

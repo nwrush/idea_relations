@@ -9,7 +9,7 @@ from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import wordpunct_tokenize
 
-from data_processor import utils
+import utils
 
 LEMMATIZER = WordNetLemmatizer()
 STOPWORDS = set(stopwords.words('english'))
