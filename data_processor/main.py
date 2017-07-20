@@ -14,6 +14,8 @@ import mallet_topics as mt
 import output_analyzer
 import preprocessing
 
+import subprocess_tools
+
 is_windows = os.name == 'nt'
 
 logging.basicConfig(level=logging.INFO)
@@ -122,7 +124,9 @@ def main(args=None, parse_args=True):
             if not os.path.exists(os.path.join(args.mallet_bin_dir, 'mallet')):
                 sys.exit("Error: Unable to find mallet at %s" % args.mallet_bin_dir)
             if is_windows:
-                os.system(".\mallet.bat %s %s %d" % (args.mallet_bin_dir, data_output_dir, num_ideas))
+                # rtn = os.system(".\mallet.bat %s %s %d" % (args.mallet_bin_dir, data_output_dir, num_ideas))
+                # print(rtn)
+                subprocess_tools.run_mallet(args.mallet_bin_dir, data_output_dir, num_ideas)
             else:
                 os.system("./mallet.sh %s %s %d" % (args.mallet_bin_dir,
                                                     data_output_dir,
