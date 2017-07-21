@@ -1,13 +1,15 @@
 # -*- coding: utf-8 -*-
 
-import os
-import json
-import math
 import collections
 import functools
+import json
+import math
 import numpy as np
-import word_count as wc
+import os
+
 import utils
+import word_count as wc
+
 
 def get_uniform_alpha(first, second, count=1.0):
     word_set = set(first.keys()) | set(second.keys())

@@ -8,6 +8,56 @@ import matplotlib.pyplot as plt
 
 import idea_relations as li
 
+def reverse_dict(input):
+    output = dict()
+    for key, value in input.items():
+        if value in output:
+            print("Warning: Duplicate key will be overwritten in new dictionary")
+        output[value] = key
+    return output
+
+class Data():
+
+    def __init__(self, pmi_matrix=None, ts_correlation_matrix=None, ts_matrix=None, idea_names=None, x_vals=None):
+        self.pmi = pmi_matrix
+        self.ts_correlation = ts_correlation_matrix
+        self.ts_matrix = ts_matrix
+        self.idea_names = idea_names
+        self.x_values = x_vals
+
+        self.idea_numbers = reverse_dict(self.idea_names)
+        self.num_ideas = len(self.idea_names)
+
+        self.strength_matrix = self._get_strength_matrix()
+
+        self.relation_types = ("Friends", "Tryst", "Head-To-Head", "Arms-Race") # Layout the relation in quadrant order
+        pass
+
+    def _get_strength_matrix(self):
+        assert self.pmi.shape == self.ts_correlation.shape
+        assert is_square(self.pmi)
+
+        a = np.multiply(self.pmi, self.ts_correlation)
+
+        lower_indexes = np.tril_indices(self.pmi.shape[0])
+        a[lower_indexes] = np.nan
+        return a
+
+    def get_idea_names(self, indexes):
+        if isinstance(indexes, int):
+            return self.idea_names[indexes]
+
+        try:
+            names = list()
+            for index in indexes:
+                names.append(self.idea_names[index])
+            return names
+        except TypeError as err:
+            print(err)
+
+        return None
+
+
 def reverse_dictionary(input):
     output = dict()
     for key, value in input.items():
@@ -97,6 +147,10 @@ def plot_things(articles, num_ideas, cooccur_func=None, group_by="years"):
 
     return (pmi, ts_correlation, ts_matrix)
     
+def get_output(articles, idea_names, cooccur_func=None, group_by="years"):
+    pmi, ts_correlation, ts_matrix = plot_things(articles, len(idea_names), cooccur_func, group_by)
+
+    return Data(pmi_matrix=pmi, ts_correlation_matrix=ts_correlation, ts_matrix=ts_matrix, idea_names=idea_names)
 
 if __name__ == "__main__":
     main()
