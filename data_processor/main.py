@@ -150,9 +150,9 @@ def main(args=None, parse_args=True):
 
     if args.objects_location is not None:
         # Output for the visualizer
-        data = output_analyzer.plot_things(articles, len(idea_names), cooccur_func, group_by=args.group_by)
+        data = output_analyzer.get_output(articles, idea_names, cooccur_func, group_by=args.group_by)
         # Output data is a tuple of the form: (pmi, ts_correlation, ts_matrix, idea_names)
-        pickle.dump(data + (idea_names,), open(args.objects_location, 'wb'))
+        pickle.dump(data, open(args.objects_location, 'wb'))
 
     if not args.no_create_graphs:
         logging.info("Creating graphs")

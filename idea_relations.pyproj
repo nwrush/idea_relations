@@ -13,7 +13,7 @@
     <LaunchProvider>Standard Python launcher</LaunchProvider>
     <InterpreterId>{49b49797-aea1-43b2-9870-2bb8c7eaefcb}</InterpreterId>
     <InterpreterVersion>3.5</InterpreterVersion>
-    <CommandLineArguments>--input_file ..\..\data\acl\acl.jsonlist.gz --data_output_dir acl_example\processing\ --final_output_dir acl_example\output\ --mallet_bin_dir N:\Users\Nikko\Documents\Dev\Java\mallet-2.0.8\bin --option topics --num_ideas 100 --prefix acl --background_file ..\..\data\nips\nips.jsonlist.gz</CommandLineArguments>
+    <CommandLineArguments>--input_file ..\..\data\acl\acl.jsonlist.gz --data_output_dir acl_example\processing\ --final_output_dir acl_example\output\ --mallet_bin_dir N:\Users\Nikko\Documents\Dev\Java\mallet-2.0.8\bin --option keywords --num_ideas 100 --prefix acl --background_file ..\..\data\nips\nips.jsonlist.gz --objects_location banana.p</CommandLineArguments>
     <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
     <Environment>
     </Environment>
