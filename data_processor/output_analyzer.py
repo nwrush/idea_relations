@@ -16,6 +16,10 @@ def reverse_dict(input):
         output[value] = key
     return output
 
+def is_square(a):
+    row, col = a.shape
+    return row == col
+
 class Data():
 
     def __init__(self, pmi_matrix=None, ts_correlation_matrix=None, ts_matrix=None, idea_names=None, x_vals=None):
