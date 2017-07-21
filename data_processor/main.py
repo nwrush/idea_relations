@@ -83,7 +83,6 @@ def main(args=None, parse_args=True):
     data_output_dir = os.path.abspath(args.data_output_dir)
     final_output_dir = os.path.abspath(args.final_output_dir)
     if not os.path.exists(data_output_dir):
-        print(data_output_dir)
         os.makedirs(data_output_dir)
     if not os.path.exists(final_output_dir):
         os.makedirs(final_output_dir)
