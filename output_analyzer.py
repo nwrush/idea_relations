@@ -1,10 +1,9 @@
 # Nikko Rush
 # 6/20/2017
 
-import pickle
-
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
+import pickle
 
 import data
 import idea_relations as li

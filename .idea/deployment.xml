@@ -5,8 +5,7 @@
       <paths name="IntegratedTest">
         <serverdata>
           <mappings>
-            <mapping deploy="." local="$PROJECT_DIR$/data_processor" web="/" />
-            <mapping local="" />
+            <mapping deploy="." local="$PROJECT_DIR$" web="/" />
           </mappings>
           <excludedPaths>
             <excludedPath local="true" path="$PROJECT_DIR$/example_output" />
