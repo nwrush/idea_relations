@@ -5,7 +5,8 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{e86390e0-2744-4f2e-a67f-0eb081ba82df}</ProjectGuid>
     <ProjectHome />
-    <StartupFile>data_processor\main.py</StartupFile>
+    <StartupFile>
+    </StartupFile>
     <SearchPath>.</SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
@@ -25,35 +26,21 @@
     <PtvsTargetsFile>$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets</PtvsTargetsFile>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="example.bat" />
+    <Content Include="example.sh" />
     <Content Include="examples.png" />
     <Content Include="example_output\figure\immigration_keywords_comb_extreme_pairs.txt" />
     <Content Include="example_output\figure\immigration_topics_comb_extreme_pairs.txt" />
-    <Content Include="data_processor\example.bat" />
-    <Content Include="data_processor\example.sh" />
-    <Content Include="data_processor\mallet.bat" />
-    <Content Include="data_processor\mallet.sh" />
-    <Content Include="data_processor\mklatex.sh" />
-    <Content Include="data_processor\run_topics.sh" />
-    <Content Include="data_processor\__pycache__\fighting_lexicon.cpython-35.pyc" />
-    <Content Include="data_processor\__pycache__\idea_relations.cpython-35.pyc" />
-    <Content Include="data_processor\__pycache__\main.cpython-35.pyc" />
-    <Content Include="data_processor\__pycache__\mallet_topics.cpython-35.pyc" />
-    <Content Include="data_processor\__pycache__\output_analyzer.cpython-35.pyc" />
-    <Content Include="data_processor\__pycache__\plot_functions.cpython-35.pyc" />
-    <Content Include="data_processor\__pycache__\preprocessing.cpython-35.pyc" />
-    <Content Include="data_processor\__pycache__\strength_table.cpython-35.pyc" />
-    <Content Include="data_processor\__pycache__\tex_output.cpython-35.pyc" />
-    <Content Include="data_processor\__pycache__\utils.cpython-35.pyc" />
-    <Content Include="data_processor\__pycache__\word_count.cpython-35.pyc" />
-    <Content Include="data_processor\__pycache__\__init__.cpython-35.pyc" />
+    <Content Include="GetData.bat" />
+    <Content Include="mallet.bat" />
+    <Content Include="mallet.sh" />
+    <Content Include="mklatex.sh" />
     <Content Include="requirements.txt" />
+    <Content Include="run_topics.sh" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="example_output\" />
     <Folder Include="example_output\figure" />
-    <Folder Include="data_processor\" />
-    <Folder Include="data_processor\acl_example\" />
-    <Folder Include="data_processor\__pycache__\" />
   </ItemGroup>
   <ItemGroup>
     <Interpreter Include="venv\">
@@ -69,18 +56,18 @@
     </Interpreter>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="data_processor\fighting_lexicon.py" />
-    <Compile Include="data_processor\idea_relations.py" />
-    <Compile Include="data_processor\main.py" />
-    <Compile Include="data_processor\mallet_topics.py" />
-    <Compile Include="data_processor\output_analyzer.py" />
-    <Compile Include="data_processor\plot_functions.py" />
-    <Compile Include="data_processor\preprocessing.py" />
-    <Compile Include="data_processor\strength_table.py" />
-    <Compile Include="data_processor\tex_output.py" />
-    <Compile Include="data_processor\utils.py" />
-    <Compile Include="data_processor\word_count.py" />
-    <Compile Include="data_processor\__init__.py" />
+    <Compile Include="data.py" />
+    <Compile Include="fighting_lexicon.py" />
+    <Compile Include="idea_relations.py" />
+    <Compile Include="main.py" />
+    <Compile Include="mallet_topics.py" />
+    <Compile Include="output_analyzer.py" />
+    <Compile Include="plot_functions.py" />
+    <Compile Include="preprocessing.py" />
+    <Compile Include="strength_table.py" />
+    <Compile Include="tex_output.py" />
+    <Compile Include="utils.py" />
+    <Compile Include="word_count.py" />
   </ItemGroup>
   <Import Project="$(PtvsTargetsFile)" Condition="Exists($(PtvsTargetsFile))" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="!Exists($(PtvsTargetsFile))" />
