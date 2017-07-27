@@ -1,76 +1,88 @@
 # -*- coding: utf-8 -*-
 
-import pickle
-
-import os
-import sys
+import argparse
+import datetime
 import functools
-import preprocessing
-import mallet_topics as mt
+import logging
+import os
+import pickle
+import sys
+
 import fighting_lexicon as fl
 import idea_relations as il
-import argparse
-import logging
-
-import datetime
+import mallet_topics as mt
 import output_analyzer
+import preprocessing
 
 is_windows = os.name == 'nt'
 
 logging.basicConfig(level=logging.INFO)
 
-parser = argparse.ArgumentParser()
-parser.add_argument("--option", type=str, choices=["topics", "keywords"],
-                    help=("choose using topics or keywords to represent ideas,"
-                        " mallet_bin_dir is required if topic is chosen,"
-                        " background_file is required if keywords is chosen."),
-                    default="topics")
-parser.add_argument("--input_file",
-                    help=("input file, each line is a json object "
-                          "with fulldate and text"),
-                    type=str)
-parser.add_argument("--data_output_dir",
-                    help=("output directory for intermedia data"),
-                    type=str)
-parser.add_argument("--final_output_dir",
-                    help=("output directory for final results"),
-                    type=str)
-parser.add_argument("--mallet_bin_dir",
-                    help=("directory with Mallet binaries"),
-                    type=str)
-parser.add_argument("--background_file",
-                    help=("background file to learn important keywords"),
-                    type=str)
-parser.add_argument("--group_by",
-                    help=("binning option for timesteps, supports year, quarter, and month"),
-                    type=str,
-                    default="year")
-parser.add_argument("--prefix",
-                    help=("name for the exploration"),
-                    type=str,
-                    default="exp")
-parser.add_argument("--num_ideas",
-                    help=("number of ideas, i.e., "
-                          "number of topics or keywords"),
-                    type=int,
-                    default=50)
-parser.add_argument("--tokenize",
-                    help=("whether to tokenize"),
-                    action="store_true")
-parser.add_argument("--lemmatize",
-                    help=("whether to lemmatize"),
-                    action="store_true")
-parser.add_argument("--nostopwords",
-                    help=("whether to filter stopwords"),
-                    action="store_true")
-args = parser.parse_args()
+def parse_arguments(args):
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--option", type=str, choices=["topics", "keywords"],
+                        help=("choose using topics or keywords to represent ideas,"
+                            " mallet_bin_dir is required if topic is chosen,"
+                            " background_file is required if keywords is chosen."),
+                        default="topics")
+    parser.add_argument("--input_file",
+                        help=("input file, each line is a json object "
+                              "with fulldate and text"),
+                        type=str)
+    parser.add_argument("--data_output_dir",
+                        help=("output directory for intermedia data"),
+                        type=str)
+    parser.add_argument("--final_output_dir",
+                        help=("output directory for final results"),
+                        type=str)
+    parser.add_argument("--mallet_bin_dir",
+                        help=("directory with Mallet binaries"),
+                        type=str)
+    parser.add_argument("--background_file",
+                        help=("background file to learn important keywords"),
+                        type=str)
+    parser.add_argument("--group_by",
+                        help=("binning option for timesteps, supports year, quarter, and month"),
+                        type=str,
+                        default="year")
+    parser.add_argument("--prefix",
+                        help=("name for the exploration"),
+                        type=str,
+                        default="exp")
+    parser.add_argument("--num_ideas",
+                        help=("number of ideas, i.e., "
+                              "number of topics or keywords"),
+                        type=int,
+                        default=50)
+    parser.add_argument("--tokenize",
+                        help=("whether to tokenize"),
+                        action="store_true")
+    parser.add_argument("--lemmatize",
+                        help=("whether to lemmatize"),
+                        action="store_true")
+    parser.add_argument("--nostopwords",
+                        help=("whether to filter stopwords"),
+                        action="store_true")
+    
+    parser.add_argument("--objects_location",
+                        help=("File name to store graph data in."
+                              "If not given, no data will be stored"),
+                        type=str,
+                        default=None)
+    parser.add_argument("--no_create_graphs",
+                        help=("whether to create graphs of relations"),
+                        action="store_true")
 
-def main():
+    return parser.parse_args(args=args)
+    
+
+def main(args=None, parse_args=True):
+    args = parse_arguments(args)
+
     input_file = os.path.abspath(args.input_file)
     data_output_dir = os.path.abspath(args.data_output_dir)
     final_output_dir = os.path.abspath(args.final_output_dir)
     if not os.path.exists(data_output_dir):
-        print(data_output_dir)
         os.makedirs(data_output_dir)
     if not os.path.exists(final_output_dir):
         os.makedirs(final_output_dir)
@@ -109,11 +121,11 @@ def main():
             if not os.path.exists(os.path.join(args.mallet_bin_dir, 'mallet')):
                 sys.exit("Error: Unable to find mallet at %s" % args.mallet_bin_dir)
             if is_windows:
-                os.system(".\mallet.bat %s %s %d" % args.mallet_bin_dir, data_output_dir, num_ideas)
+                os.system(".\mallet.bat %s %s %d" % (args.mallet_bin_dir, data_output_dir, num_ideas))
             else:
                 os.system("./mallet.sh %s %s %d" % (args.mallet_bin_dir,
-                                                data_output_dir,
-                                                num_ideas))
+                                                    data_output_dir,
+                                                    num_ideas))
         # load mallet outputs
         articlesw, vocab, idea_names = mt.load_articles(input_file,
                                                        data_output_dir)
@@ -135,15 +147,20 @@ def main():
     else:
         logging.error("unsupported idea representations")
 
-    # Output for the visualizer
-    data = output_analyzer.plot_things(articles, len(idea_names), cooccur_func, group_by=args.group_by)
-    # Output data is a tuple of the form: (pmi, ts_correlation, ts_matrix, idea_names)
-    pickle.dump(data + (idea_names,), open("data.p", 'wb'))
-    print("Pancake")
-    # compute strength between pairs and generate outputs
-    #il.generate_all_outputs(articles, num_ideas, idea_names, prefix,
-    #                        final_output_dir, cooccur_func,
-    #                        table_top=table_top, group_by=args.group_by)
+
+    if args.objects_location is not None:
+        # Output for the visualizer
+        data = output_analyzer.get_output(articles, idea_names, cooccur_func, group_by=args.group_by)
+        # Output data is a tuple of the form: (pmi, ts_correlation, ts_matrix, idea_names)
+        pickle.dump(data, open(args.objects_location, 'wb'))
+
+    if not args.no_create_graphs:
+        logging.info("Creating graphs")
+        # compute strength between pairs and generate outputs
+        il.generate_all_outputs(articles, num_ideas, idea_names, prefix,
+                                final_output_dir, cooccur_func,
+                                table_top=table_top, group_by=args.group_by)
+    return args
 
 if __name__ == "__main__":
     main()

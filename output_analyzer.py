@@ -1,12 +1,13 @@
 # Nikko Rush
 # 6/20/2017
 
+import matplotlib.pyplot as plt
+import numpy as np
 import pickle
 
-import numpy as np
-import matplotlib.pyplot as plt
-
+import data
 import idea_relations as li
+
 
 def reverse_dictionary(input):
     output = dict()
@@ -15,6 +16,7 @@ def reverse_dictionary(input):
             print("Warning: Duplicate key in new dictionary. Will be overwritten")
         output[value] = key
     return output
+
 
 def main():
     ts_matrix, idea_names, type_list = pickle.load(open('data.p', 'rb'))
@@ -36,6 +38,7 @@ def main():
     ax.set_xticks(np.arange(35))
     ax.set_xticklabels(x_tick_labels, rotation=45)
     plt.show()
+
 
 def retrieve_data(articles, num_ideas, cooccur_func=None, group_by="years"):
     result = li.get_count_cooccur(articles, func=cooccur_func)
@@ -63,6 +66,7 @@ def retrieve_data(articles, num_ideas, cooccur_func=None, group_by="years"):
     ts_matrix = li.get_time_series(info_dict, num_ideas, normalize=True)
 
     return (pmi, ts_correlation, ts_matrix)
+
 
 def time_series(info_dict, num_ideas, normalize=True):
     return li.get_time_series(info_dict, num_ideas, normalize)
@@ -96,7 +100,13 @@ def plot_things(articles, num_ideas, cooccur_func=None, group_by="years"):
     ts_matrix = li.get_time_series(info_dict, num_ideas, normalize=True)
 
     return (pmi, ts_correlation, ts_matrix)
+
     
+def get_output(articles, idea_names, cooccur_func=None, group_by="years"):
+    pmi, ts_correlation, ts_matrix = plot_things(articles, len(idea_names), cooccur_func, group_by)
+
+    return data.Data(pmi_matrix=pmi, ts_correlation_matrix=ts_correlation, ts_matrix=ts_matrix, idea_names=idea_names)
+
 
 if __name__ == "__main__":
     main()

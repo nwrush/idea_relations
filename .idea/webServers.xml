@@ -2,13 +2,8 @@
 <project version="4">
   <component name="WebServers">
     <option name="servers">
-      <webServer id="00188b16-4cb1-41b8-bad3-0d4f71941d0a" name="zin" url="http://zin.cs.washington.edu">
-        <fileTransfer host="zin.cs.washington.edu" port="1255" privateKey="Z:\Keys\zin.ppk" rootFolder="/home/nikko" accessType="SFTP" keyPair="true">
-          <advancedOptions>
-            <advancedOptions dataProtectionLevel="Private" />
-          </advancedOptions>
-          <option name="port" value="1255" />
-        </fileTransfer>
+      <webServer id="e976075d-9f09-4e11-80f0-6c0a31c35cc2" name="IntegratedTest" url="http://localhost">
+        <fileTransfer port="0" mountedRoot="C:\Users\rushni\Documents\dev\Clean\Visualizer\idea_relations" accessType="MOUNT" />
       </webServer>
     </option>
   </component>

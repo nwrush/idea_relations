@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" serverName="zin">
+  <component name="PublishConfigData" serverName="IntegratedTest">
     <serverData>
-      <paths name="zin">
+      <paths name="IntegratedTest">
         <serverdata>
           <mappings>
-            <mapping deploy="/visualization/idea_relations" local="$PROJECT_DIR$" web="/" />
+            <mapping deploy="." local="$PROJECT_DIR$" web="/" />
           </mappings>
+          <excludedPaths>
+            <excludedPath local="true" path="$PROJECT_DIR$/example_output" />
+            <excludedPath local="true" path="$PROJECT_DIR$/data_processor/acl_example" />
+          </excludedPaths>
         </serverdata>
       </paths>
     </serverData>

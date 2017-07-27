@@ -10,5 +10,5 @@
     <ConfirmationsSetting value="0" id="Add" />
     <ConfirmationsSetting value="0" id="Remove" />
   </component>
-  <component name="ProjectRootManager" version="2" project-jdk-name="Remote Python 3.4.3 (ssh://nikko@zin.cs.washington.edu:1255/home/nikko/visualization/idea_relations/venv/bin/python)" project-jdk-type="Python SDK" />
+  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.5.2 virtualenv at C:\Users\rushni\Documents\dev\Visualization\idea_relations\venv" project-jdk-type="Python SDK" />
 </project>

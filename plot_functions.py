@@ -1,10 +1,5 @@
 """Adapt plot functions with seaborn to get more beautiful plots."""
 
-
-
-
-
-
 import logging
 import os
 import collections

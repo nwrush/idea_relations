@@ -1,15 +1,16 @@
 # -*- coding: utf-8 -*-
 
 import collections
-import re
-import io
-import gzip
-import json
 import functools
+import gzip
+import io
+import json
 import logging
 import numpy as np
+import re
 import scipy.stats as ss
 from nltk.corpus import stopwords
+
 import utils
 
 STOPWORDS = set(stopwords.words("english") + ["said"])

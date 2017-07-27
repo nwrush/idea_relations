@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 
-import io
-import os
 import collections
-import json
+import io
 import itertools
+import json
 import numpy as np
+import os
 import scipy.stats as ss
 from distutils.spawn import find_executable
+
 if find_executable('latex'):
     HAS_LATEX = True
 else:
@@ -162,16 +163,16 @@ def get_combined_extreme_pairs(pmi, corr, idea_names, output_file, count=100):
     combined[np.isinf(combined)] = 0
     all_pairs = []
     _, top = utils.get_extreme_pairs(np.multiply(combined,
-        (pmi > 0).astype(float), (corr > 0).astype(float)), count=count)
+                                                 (pmi > 0).astype(float), (corr > 0).astype(float)), count=count)
     all_pairs.extend([(abs(combined[i, j]), (i, j)) for i, j in top])
     _, top = utils.get_extreme_pairs(np.multiply(combined,
-        (pmi < 0).astype(float), (corr < 0).astype(float)), count=count)
+                                                 (pmi < 0).astype(float), (corr < 0).astype(float)), count=count)
     all_pairs.extend([(abs(combined[i, j]), (i, j)) for i, j in top])
     _, top = utils.get_extreme_pairs(np.multiply(-combined,
-        (pmi > 0).astype(float), (corr < 0).astype(float)), count=count)
+                                                 (pmi > 0).astype(float), (corr < 0).astype(float)), count=count)
     all_pairs.extend([(abs(combined[i, j]), (i, j)) for i, j in top])
     _, top = utils.get_extreme_pairs(np.multiply(-combined,
-        (pmi < 0).astype(float), (corr > 0).astype(float)), count=count)
+                                                 (pmi < 0).astype(float), (corr > 0).astype(float)), count=count)
     all_pairs.extend([(abs(combined[i, j]), (i, j)) for i, j in top])
     all_pairs.sort(reverse=True)
     all_pairs = [v[1] for v in all_pairs]

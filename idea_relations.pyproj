@@ -5,15 +5,16 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{e86390e0-2744-4f2e-a67f-0eb081ba82df}</ProjectGuid>
     <ProjectHome />
-    <StartupFile>main.py</StartupFile>
-    <SearchPath />
+    <StartupFile>
+    </StartupFile>
+    <SearchPath>.</SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
     <ProjectTypeGuids>{888888a0-9f3d-457c-b088-3a5042f75d52}</ProjectTypeGuids>
     <LaunchProvider>Standard Python launcher</LaunchProvider>
     <InterpreterId>{49b49797-aea1-43b2-9870-2bb8c7eaefcb}</InterpreterId>
     <InterpreterVersion>3.5</InterpreterVersion>
-    <CommandLineArguments>--input_file ..\..\data\acl\acl.jsonlist.gz --data_output_dir acl_example\processing\ --final_output_dir acl_example\output\ --mallet_bin_dir N:\Users\Nikko\Documents\Dev\Java\mallet-2.0.8\bin --option topics --num_ideas 100 --prefix acl --background_file ..\..\data\nips\nips.jsonlist.gz</CommandLineArguments>
+    <CommandLineArguments>--input_file ..\..\data\acl\acl.jsonlist.gz --data_output_dir acl_example\processing\ --final_output_dir acl_example\output\ --mallet_bin_dir N:\Users\Nikko\Documents\Dev\Java\mallet-2.0.8\bin --option keywords --num_ideas 100 --prefix acl --background_file ..\..\data\nips\nips.jsonlist.gz --objects_location banana.p</CommandLineArguments>
     <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
     <Environment>
     </Environment>
@@ -25,25 +26,17 @@
     <PtvsTargetsFile>$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets</PtvsTargetsFile>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="example.bat" />
+    <Content Include="example.sh" />
     <Content Include="examples.png" />
     <Content Include="example_output\figure\immigration_keywords_comb_extreme_pairs.txt" />
     <Content Include="example_output\figure\immigration_topics_comb_extreme_pairs.txt" />
+    <Content Include="GetData.bat" />
+    <Content Include="mallet.bat" />
+    <Content Include="mallet.sh" />
+    <Content Include="mklatex.sh" />
     <Content Include="requirements.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="fighting_lexicon.py" />
-    <Compile Include="idea_relations.py" />
-    <Compile Include="main.py" />
-    <Compile Include="mallet_topics.py" />
-    <Compile Include="output_analyzer.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="plot_functions.py" />
-    <Compile Include="preprocessing.py" />
-    <Compile Include="strength_table.py" />
-    <Compile Include="tex_output.py" />
-    <Compile Include="utils.py" />
-    <Compile Include="word_count.py" />
+    <Content Include="run_topics.sh" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="example_output\" />
@@ -61,6 +54,20 @@
       <PathEnvironmentVariable>PYTHONPATH</PathEnvironmentVariable>
       <Architecture>Amd64</Architecture>
     </Interpreter>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="data.py" />
+    <Compile Include="fighting_lexicon.py" />
+    <Compile Include="idea_relations.py" />
+    <Compile Include="main.py" />
+    <Compile Include="mallet_topics.py" />
+    <Compile Include="output_analyzer.py" />
+    <Compile Include="plot_functions.py" />
+    <Compile Include="preprocessing.py" />
+    <Compile Include="strength_table.py" />
+    <Compile Include="tex_output.py" />
+    <Compile Include="utils.py" />
+    <Compile Include="word_count.py" />
   </ItemGroup>
   <Import Project="$(PtvsTargetsFile)" Condition="Exists($(PtvsTargetsFile))" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="!Exists($(PtvsTargetsFile))" />
