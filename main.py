@@ -18,12 +18,13 @@ is_windows = os.name == 'nt'
 
 logging.basicConfig(level=logging.INFO)
 
+
 def parse_arguments(args):
     parser = argparse.ArgumentParser()
     parser.add_argument("--option", type=str, choices=["topics", "keywords"],
                         help=("choose using topics or keywords to represent ideas,"
-                            " mallet_bin_dir is required if topic is chosen,"
-                            " background_file is required if keywords is chosen."),
+                              " mallet_bin_dir is required if topic is chosen,"
+                              " background_file is required if keywords is chosen."),
                         default="topics")
     parser.add_argument("--input_file",
                         help=("input file, each line is a json object "
@@ -63,7 +64,7 @@ def parse_arguments(args):
     parser.add_argument("--nostopwords",
                         help=("whether to filter stopwords"),
                         action="store_true")
-    
+
     parser.add_argument("--objects_location",
                         help=("File name to store graph data in."
                               "If not given, no data will be stored"),
@@ -74,7 +75,7 @@ def parse_arguments(args):
                         action="store_true")
 
     return parser.parse_args(args=args)
-    
+
 
 def main(args=None, parse_args=True):
     args = parse_arguments(args)
@@ -128,7 +129,7 @@ def main(args=None, parse_args=True):
                                                     num_ideas))
         # load mallet outputs
         articlesw, vocab, idea_names = mt.load_articles(input_file,
-                                                       data_output_dir)
+                                                        data_output_dir)
         table_top = 5
     elif option == "keywords":
         logging.info("using keywords to represent ideas")
@@ -140,13 +141,12 @@ def main(args=None, parse_args=True):
                                   lexicon_file)
         # load keywords
         articles, word_set, idea_names = fl.load_word_articles(input_file,
-            lexicon_file,
-            data_output_dir,
-            vocab_size=num_ideas)
+                                                               lexicon_file,
+                                                               data_output_dir,
+                                                               vocab_size=num_ideas)
         table_top = 10
     else:
         logging.error("unsupported idea representations")
-
 
     if args.objects_location is not None:
         # Output for the visualizer
@@ -162,6 +162,6 @@ def main(args=None, parse_args=True):
                                 table_top=table_top, group_by=args.group_by)
     return args
 
+
 if __name__ == "__main__":
     main()
-

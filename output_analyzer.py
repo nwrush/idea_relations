@@ -99,13 +99,20 @@ def plot_things(articles, num_ideas, cooccur_func=None, group_by="years"):
 
     ts_matrix = li.get_time_series(info_dict, num_ideas, normalize=True)
 
-    return (pmi, ts_correlation, ts_matrix)
+    return pmi, ts_correlation, ts_matrix
+
+
+def get_time_steps(articles, group_by="years"):
+    return sorted({article.fulldate for article in articles})
 
     
 def get_output(articles, idea_names, cooccur_func=None, group_by="years"):
     pmi, ts_correlation, ts_matrix = plot_things(articles, len(idea_names), cooccur_func, group_by)
 
-    return data.Data(pmi_matrix=pmi, ts_correlation_matrix=ts_correlation, ts_matrix=ts_matrix, idea_names=idea_names)
+    time_values = get_time_steps(articles, group_by)
+
+    return data.Data(pmi_matrix=pmi, ts_correlation_matrix=ts_correlation, ts_matrix=ts_matrix, idea_names=idea_names,
+                     x_vals=time_values)
 
 
 if __name__ == "__main__":
