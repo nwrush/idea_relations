@@ -102,14 +102,20 @@ def plot_things(articles, num_ideas, cooccur_func=None, group_by="years"):
     return pmi, ts_correlation, ts_matrix
 
 
-def get_time_steps(articles, group_by="years"):
-    return sorted({article.fulldate for article in articles})
+def get_time_steps(articles, group_by, start_time, end_time):
+    times = set()
+    for article in articles:
+        date = article.fulldate
+        if start_time < date < end_time:
+            times.add(date)
+
+    return sorted(times)
 
     
 def get_output(articles, idea_names, cooccur_func=None, group_by="years"):
     pmi, ts_correlation, ts_matrix = plot_things(articles, len(idea_names), cooccur_func, group_by)
 
-    time_values = get_time_steps(articles, group_by)
+    time_values = get_time_steps(articles, group_by, 1980, 2016)
 
     return data.Data(pmi_matrix=pmi, ts_correlation_matrix=ts_correlation, ts_matrix=ts_matrix, idea_names=idea_names,
                      x_vals=time_values)
