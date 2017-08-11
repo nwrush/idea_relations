@@ -18,6 +18,8 @@ is_windows = os.name == 'nt'
 
 logging.basicConfig(level=logging.INFO)
 
+STEPS = 4
+
 
 def parse_arguments(args):
     parser = argparse.ArgumentParser()
@@ -80,6 +82,9 @@ def parse_arguments(args):
 def main(args=None, parse_args=True):
     args = parse_arguments(args)
 
+    is_subprocess = args.objects_location is not None
+    if is_subprocess: print("Status:%d" % STEPS)
+
     input_file = os.path.abspath(args.input_file)
     data_output_dir = os.path.abspath(args.data_output_dir)
     final_output_dir = os.path.abspath(args.final_output_dir)
@@ -96,6 +101,10 @@ def main(args=None, parse_args=True):
                                  filter_stopwords=args.nostopwords)
         preprocessing.preprocess_input(input_file, token_file)
         input_file = token_file
+
+    # status message
+    if is_subprocess: print("Status:1")
+
     if args.lemmatize:
         # lemmatize input_file to lemma_file
         logging.info("lemmatizing data")
@@ -104,6 +113,10 @@ def main(args=None, parse_args=True):
                                  filter_stopwords=args.nostopwords)
         preprocessing.preprocess_input(input_file, lemma_file)
         input_file = lemma_file
+
+    # status message
+    if is_subprocess: print("Status:2")
+
     # generate topics or lexicons
     option = args.option
     num_ideas = args.num_ideas
@@ -148,11 +161,15 @@ def main(args=None, parse_args=True):
     else:
         logging.error("unsupported idea representations")
 
-    if args.objects_location is not None:
+    if is_subprocess: print("Status:3")
+
+    if is_subprocess:
         # Output for the visualizer
         data = output_analyzer.get_output(articles, idea_names, cooccur_func, group_by=args.group_by)
         # Output data is a tuple of the form: (pmi, ts_correlation, ts_matrix, idea_names)
         pickle.dump(data, open(args.objects_location, 'wb'))
+
+        print("Status:4")
 
     if not args.no_create_graphs:
         logging.info("Creating graphs")
