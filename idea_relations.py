@@ -68,7 +68,7 @@ def get_count_cooccur(articles, func=generate_cooccurrence_from_int_set):
 
 
 def get_time_grouped_articles(articles, group_by="year", start_time=1980,
-        end_time=2016):
+                              end_time=2016):
     articles_group = collections.defaultdict(list)
     for article in articles:
         key = utils.get_date_key(article.fulldate, group_by=group_by)
