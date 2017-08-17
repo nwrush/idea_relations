@@ -102,12 +102,13 @@ def plot_things(articles, num_ideas, cooccur_func=None, group_by="years", start_
 
     return pmi, ts_correlation, ts_matrix, time_steps
 
-def get_output(articles, idea_names, cooccur_func=None, group_by="years", start_time=1980, end_time=2016):
+
+def get_output(articles, idea_names, cooccur_func=None, name=None, group_by="years", start_time=1980, end_time=2016):
     pmi, ts_correlation, ts_matrix, time_values = plot_things(articles, len(idea_names), cooccur_func, group_by,
                                                               start_time, end_time)
 
     return data.Data(pmi_matrix=pmi, ts_correlation_matrix=ts_correlation, ts_matrix=ts_matrix, idea_names=idea_names,
-                     x_vals=time_values)
+                     x_vals=time_values, name=name)
 
 
 if __name__ == "__main__":
