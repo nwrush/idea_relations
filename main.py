@@ -141,7 +141,7 @@ def main(args=None, parse_args=True):
                                                     data_output_dir,
                                                     num_ideas))
         # load mallet outputs
-        articlesw, vocab, idea_names = mt.load_articles(input_file,
+        articles, vocab, idea_names = mt.load_articles(input_file,
                                                         data_output_dir)
         table_top = 5
     elif option == "keywords":
