@@ -165,7 +165,7 @@ def main(args=None, parse_args=True):
 
     if is_subprocess:
         # Output for the visualizer
-        data = output_analyzer.get_output(articles, idea_names, cooccur_func, name=args.prefix, group_by=args.group_by)
+        data = output_analyzer.get_output(args, articles, idea_names, cooccur_func, name=args.prefix, group_by=args.group_by)
         # Output data is a tuple of the form: (pmi, ts_correlation, ts_matrix, idea_names)
         pickle.dump(data, open(args.objects_location, 'wb'))
 
