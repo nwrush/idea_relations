@@ -126,6 +126,7 @@ def main(args=None, parse_args=True):
     if option == "topics":
         logging.info("using topics to represent ideas")
         prefix = "%s_topics" % prefix
+
         # generate mallet topics
         if not mt.check_mallet_directory(data_output_dir):
             mt.get_mallet_input_from_words(input_file, data_output_dir)
