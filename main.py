@@ -75,6 +75,9 @@ def parse_arguments(args):
     parser.add_argument("--no_create_graphs",
                         help=("whether to create graphs of relations"),
                         action="store_true")
+    parser.add_argument("--force_create_topics",
+                        help=("force the parser to recreate topic information instead of relying on existing files"),
+                        action="store_true")
 
     return parser.parse_args(args=args)
 
@@ -128,7 +131,7 @@ def main(args=None, parse_args=True):
         prefix = "%s_topics" % prefix
 
         # generate mallet topics
-        if not mt.check_mallet_directory(data_output_dir):
+        if args.force_create_topics or not mt.check_mallet_directory(data_output_dir):
             mt.get_mallet_input_from_words(input_file, data_output_dir)
             # run mallet to prepare topics inputs
             # users can also generate mallet-style topic inputs inputs
@@ -136,7 +139,7 @@ def main(args=None, parse_args=True):
             if not os.path.exists(os.path.join(args.mallet_bin_dir, 'mallet')):
                 sys.exit("Error: Unable to find mallet at %s" % args.mallet_bin_dir)
             if is_windows:
-                os.system(".\mallet.bat %s %s %d" % (args.mallet_bin_dir, data_output_dir, num_ideas))
+                rtn_code = os.system(".\mallet.bat %s %s %d" % (args.mallet_bin_dir, data_output_dir, num_ideas))
             else:
                 os.system("./mallet.sh %s %s %d" % (args.mallet_bin_dir,
                                                     data_output_dir,
