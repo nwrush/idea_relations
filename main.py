@@ -8,6 +8,8 @@ import os
 import pickle
 import sys
 
+import dateutil.parser
+
 import fighting_lexicon as fl
 import idea_relations as il
 import mallet_topics as mt
@@ -78,6 +80,14 @@ def parse_arguments(args):
     parser.add_argument("--force_create_topics",
                         help=("force the parser to recreate topic information instead of relying on existing files"),
                         action="store_true")
+    parser.add_argument("--start_time",
+                        help=("Only consider documents from after this point in time"),
+                        type=str,
+                        default=None)
+    parser.add_argument("--end_time",
+                        help=("Only consider documents from before this point in time"),
+                        type=str,
+                        default=None)
 
     return parser.parse_args(args=args)
 
@@ -168,7 +178,13 @@ def main(args=None, parse_args=True):
 
     if is_subprocess:
         # Output for the visualizer
-        data = output_analyzer.get_output(args, articles, idea_names, cooccur_func, name=args.prefix, group_by=args.group_by)
+        default_time = datetime.datetime(1, 1, 1)
+
+        start = dateutil.parser.parse(args.start_time, default=default_time)
+        end = dateutil.parser.parse(args.end_time, default=default_time)
+
+        data = output_analyzer.get_output(args, articles, idea_names, cooccur_func, name=args.prefix,
+                                          group_by=args.group_by, start_time=start, end_time=end)
         # Output data is a tuple of the form: (pmi, ts_correlation, ts_matrix, idea_names)
         pickle.dump(data, open(args.objects_location, 'wb'))
 

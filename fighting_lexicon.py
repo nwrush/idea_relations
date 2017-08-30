@@ -84,7 +84,7 @@ def load_word_articles(input_file, vocab_file, data_dir, vocab_size=100):
     for data in utils.read_json_list(input_file):
         words = words_func(data["text"])
         words = set([word_set[w] for w in words if w in word_set])
-        articles.append(utils.IdeaArticle(fulldate=int(data["date"]),
+        articles.append(utils.IdeaArticle(fulldate=utils.get_datetime(data["date"]),
                                           ideas=words))
     return articles, word_set, word_map
 

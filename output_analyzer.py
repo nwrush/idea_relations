@@ -1,6 +1,9 @@
 # Nikko Rush
 # 6/20/2017
 
+import datetime
+
+import dateutil.parser
 import matplotlib.pyplot as plt
 import numpy as np
 import pickle
@@ -74,6 +77,8 @@ def time_series(info_dict, num_ideas, normalize=True):
 
 def plot_things(articles, num_ideas, cooccur_func=None, group_by="years", start_time=1980, end_time=2016):
     # Lifted from item_relations:generate_scatter_dist_plot
+    articles = filter_articles(articles, start_time, end_time)
+
     result = li.get_count_cooccur(articles, func=cooccur_func)
     pmi = li.get_pmi(result["cooccur"], result["count"],
                      float(result["articles"]), num_ideas=num_ideas)
@@ -101,6 +106,15 @@ def plot_things(articles, num_ideas, cooccur_func=None, group_by="years", start_
     time_steps = sorted(articles_group.keys())
 
     return pmi, ts_correlation, ts_matrix, time_steps
+
+
+def filter_articles(articles, start_time, end_time, default_date=datetime.datetime(1, 1, 1)):
+    if not isinstance(start_time, datetime.datetime):
+        start_time = dateutil.parser.parse(str(start_time), default=default_date)
+    if not isinstance(end_time, datetime.datetime):
+        end_time = dateutil.parser.parse(str(end_time), default=default_date)
+
+    return [article for article in articles if start_time <= article.fulldate <= end_time]
 
 
 def get_output(args, articles, idea_names, cooccur_func=None, name=None, group_by="years", start_time=1980,

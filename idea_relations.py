@@ -70,13 +70,14 @@ def get_count_cooccur(articles, func=generate_cooccurrence_from_int_set):
 def get_time_grouped_articles(articles, group_by="year", start_time=1980,
                               end_time=2016):
     articles_group = collections.defaultdict(list)
+
+    start_key = utils.get_date_key(start_time, group_by=group_by)
+    end_key = utils.get_date_key(end_time, group_by=group_by)
     for article in articles:
         key = utils.get_date_key(article.fulldate, group_by=group_by)
-        if int(str(key)[:4]) < start_time:
-            continue
-        if int(str(key)[:4]) > end_time:
-            continue
-        articles_group[key].append(article)
+        assert isinstance(key, int)
+        if start_key <= key <= end_key:
+            articles_group[key].append(article)
     return articles_group
 
 

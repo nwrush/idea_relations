@@ -65,7 +65,7 @@ def load_doc_topics(input_file, doc_topic_file, threshold=0.01):
             ideas = topic_line.strip().split()[2:]
             ideas = set([i for (i, v) in enumerate(ideas) 
                          if float(v) > threshold])
-            articles.append(utils.IdeaArticle(fulldate=int(data["date"]),
+            articles.append(utils.IdeaArticle(fulldate=utils.get_datetime(data["date"]),
                                               ideas=ideas))
     return articles
 

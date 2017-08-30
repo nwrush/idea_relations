@@ -7,25 +7,28 @@ import io
 import collections
 import numpy as np
 
+import datetime
+import dateutil.parser
 
 IdeaArticle = collections.namedtuple("Article", ["fulldate", "ideas"])
-        
+
+
+def get_datetime(date, default=datetime.datetime(1, 1, 1)):
+    return dateutil.parser.parse(str(date), default=default)
+
+
 def get_date_key(date, group_by="month"):
+    assert isinstance(date, datetime.datetime)
     if group_by == "month":
-        key = int(date / 100)
+        key = date.year*100 + date.month
     elif group_by == "year":
-        if date < 10000:
-            key = int(date)
-        else:
-            key = int(date / 10000)
+        key = date.year
     elif group_by == "quarter":
-        month = int(date / 100)
-        year = int(month / 100)
-        month = month % 100
-        key = year * 100 + int((month - 1) / 3)
+        # E.g. July, 1997 would turn into 199702, as the second quarter of the year 1997
+        key = date.year * 100 + int((date.month - 1) / 3)
     else:
         raise NotImplementedError(
-                "there is no key function for grouping %s" % group_by)
+            "there is no key function for grouping %s" % group_by)
     return key
 
 
@@ -33,7 +36,7 @@ def get_log_pmi(xy, x, y, total, add_one=1.0):
     if add_one < 0:
         add_one = 0
     return np.log(xy + add_one) + np.log(total + add_one) \
-            - np.log(x + add_one) - np.log(y + add_one)
+           - np.log(x + add_one) - np.log(y + add_one)
 
 
 def write_word_dict(vocab_dict, word_count, filename):
@@ -43,9 +46,9 @@ def write_word_dict(vocab_dict, word_count, filename):
         reverse_dict = {i: w for (w, i) in vocab_dict.items()}
         for wid in ids:
             fout.write("%d\t%s\t%d\n" % (wid, reverse_dict[wid],
-                word_count[reverse_dict[wid]]))
+                                         word_count[reverse_dict[wid]]))
 
-            
+
 def read_word_dict(filename, vocab_size=-1):
     vocab_map = {}
     with io.open(filename, "r", encoding="utf-8") as fin:
@@ -60,7 +63,6 @@ def read_word_dict(filename, vocab_size=-1):
             except:
                 print(line)
     return vocab_map
-
 
 
 def unravel_indices(indices, shape, symmetry=True):
@@ -97,7 +99,6 @@ def get_reverse_dict(d):
     return {i: w for (w, i) in d.items()}
 
 
-
 def read_json_list(input_file):
     with gzip.open(input_file, 'rt') if input_file.endswith(".gz") \
             else open(input_file, 'r') as fin:
@@ -112,5 +113,3 @@ def write_json_list(output_file, data):
         for d in data:
             line = "%s\n" % json.dumps(d)
             fout.write(bytes(line, "utf-8"))
-
-
