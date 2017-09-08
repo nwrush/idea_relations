@@ -23,6 +23,9 @@ logging.basicConfig(level=logging.INFO)
 STEPS = 4
 
 
+print(__name__)
+
+
 def parse_arguments(args):
     parser = argparse.ArgumentParser()
     parser.add_argument("--option", type=str, choices=["topics", "keywords"],
@@ -83,11 +86,11 @@ def parse_arguments(args):
     parser.add_argument("--start_time",
                         help=("Only consider documents from after this point in time"),
                         type=str,
-                        default=None)
+                        default=datetime.MINYEAR)
     parser.add_argument("--end_time",
                         help=("Only consider documents from before this point in time"),
                         type=str,
-                        default=None)
+                        default=datetime.MAXYEAR)
 
     return parser.parse_args(args=args)
 
@@ -180,8 +183,9 @@ def main(args=None, parse_args=True):
         # Output for the visualizer
         default_time = datetime.datetime(1, 1, 1)
 
-        start = dateutil.parser.parse(args.start_time, default=default_time)
-        end = dateutil.parser.parse(args.end_time, default=default_time)
+
+        start = dateutil.parser.parse(str(args.start_time), default=default_time)
+        end = dateutil.parser.parse(str(args.end_time), default=default_time)
 
         data = output_analyzer.get_output(args, articles, idea_names, cooccur_func, name=args.prefix,
                                           group_by=args.group_by, start_time=start, end_time=end)
