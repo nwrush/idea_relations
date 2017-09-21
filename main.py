@@ -23,9 +23,6 @@ logging.basicConfig(level=logging.INFO)
 STEPS = 4
 
 
-print(__name__)
-
-
 def parse_arguments(args):
     parser = argparse.ArgumentParser()
     parser.add_argument("--option", type=str, choices=["topics", "keywords"],
@@ -182,7 +179,6 @@ def main(args=None, parse_args=True):
     if is_subprocess:
         # Output for the visualizer
         default_time = datetime.datetime(1, 1, 1)
-
 
         start = dateutil.parser.parse(str(args.start_time), default=default_time)
         end = dateutil.parser.parse(str(args.end_time), default=default_time)
