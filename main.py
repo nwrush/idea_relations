@@ -160,9 +160,7 @@ def main(args=None, parse_args=True):
             else:
                 subprocess.call("./mallet.sh %s %s %d" % (args.mallet_bin_dir, data_output_dir, num_ideas),
                                 shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-                os.system("./mallet.sh %s %s %d" % (args.mallet_bin_dir,
-                                                    data_output_dir,
-                                                    num_ideas))
+
         # load mallet outputs
         articles, vocab, idea_names = mt.load_articles(input_file, data_output_dir)
         table_top = 5
