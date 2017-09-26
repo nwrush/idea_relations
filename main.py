@@ -5,6 +5,7 @@ import datetime
 import functools
 import logging
 import os
+import os.path
 import pickle
 import sys
 import subprocess
@@ -19,7 +20,7 @@ logging.basicConfig(level=logging.DEBUG,
 import dateutil.parser
 
 import fighting_lexicon as fl
-import idea_relations as il
+import idea_relations_runner as il
 import mallet_topics as mt
 import output_analyzer
 import preprocessing
@@ -98,11 +99,11 @@ def parse_arguments(args):
     return parser.parse_args(args=args)
 
 
-def main(args=None, parse_args=True):
+def main(args=None, message_queue=None):
     args = parse_arguments(args)
 
-    is_subprocess = args.objects_location is not None
-    if is_subprocess: print("Status:%d" % STEPS)
+    is_subprocess = args.objects_location is not None and message_queue is not None
+    if is_subprocess: message_queue.put("Status:%d" % STEPS)
 
     input_file = os.path.abspath(args.input_file)
     data_output_dir = os.path.abspath(args.data_output_dir)
@@ -122,7 +123,7 @@ def main(args=None, parse_args=True):
         input_file = token_file
 
     # status message
-    if is_subprocess: print("Status:1")
+    if is_subprocess: message_queue.put("Status:1")
 
     if args.lemmatize:
         # lemmatize input_file to lemma_file
@@ -134,7 +135,7 @@ def main(args=None, parse_args=True):
         input_file = lemma_file
 
     # status message
-    if is_subprocess: print("Status:2")
+    if is_subprocess: message_queue.put("Status:2")
 
     # generate topics or lexicons
     option = args.option
@@ -155,10 +156,22 @@ def main(args=None, parse_args=True):
             if not os.path.exists(os.path.join(args.mallet_bin_dir, 'mallet')):
                 sys.exit("Error: Unable to find mallet at %s" % args.mallet_bin_dir)
             if is_windows:
-                subprocess.call(".\mallet.bat %s %s %d" % (args.mallet_bin_dir, data_output_dir, num_ideas),
+                path = '.\mallet.bat'
+                if not os.path.isfile(path):
+                    path = '.\idea_relations\mallet.bat'
+                    if not os.path.isfile(path):
+                        raise FileNotFoundError("Couldn't locate mallet.bat")
+
+                subprocess.call("%s %s %s %d" % (path, args.mallet_bin_dir, data_output_dir, num_ideas),
                                 stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             else:
-                subprocess.call("./mallet.sh %s %s %d" % (args.mallet_bin_dir, data_output_dir, num_ideas),
+                path = './mallet.sh'
+                if not os.path.isfile(path):
+                    path = './idea_relations/mallet.sh'
+                    if not os.path.isfile(path):
+                        raise FileNotFoundError("Couldn't locate mallet.bat")
+
+                subprocess.call("%s %s %s %d" % (path, args.mallet_bin_dir, data_output_dir, num_ideas),
                                 shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
         # load mallet outputs
@@ -181,7 +194,7 @@ def main(args=None, parse_args=True):
     else:
         logging.error("unsupported idea representations")
 
-    if is_subprocess: print("Status:3")
+    if is_subprocess: message_queue.put("Status:3")
 
     default_time = datetime.datetime(1, 1, 1)
 
@@ -196,7 +209,7 @@ def main(args=None, parse_args=True):
         # Output data is a tuple of the form: (pmi, ts_correlation, ts_matrix, idea_names)
         pickle.dump(data, open(args.objects_location, 'wb'))
 
-        print("Status:4")
+        message_queue.put("Status:4")
 
     if not args.no_create_graphs:
         logging.info("Creating graphs")

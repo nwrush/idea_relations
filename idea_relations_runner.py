@@ -18,10 +18,12 @@ try:
     unimodality_test = True
 except:
     unimodality_test = False
-import plot_functions as pf
+# import idea_plot_functions as pf
 import strength_table as st
 import tex_output as to
 import utils
+
+pf = type('',(object,),{"FIG_SIZE": (8, 7)})()
 
 COLOR_DICT = {
     "friends": "blue green",

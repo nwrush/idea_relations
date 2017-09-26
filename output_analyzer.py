@@ -9,7 +9,7 @@ import numpy as np
 import pickle
 
 import data
-import idea_relations as li
+import idea_relations_runner as li
 
 
 def reverse_dictionary(input):

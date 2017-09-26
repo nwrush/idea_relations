@@ -8,7 +8,6 @@ import json
 import logging
 import numpy as np
 import re
-import scipy.stats as ss
 from nltk.corpus import stopwords
 
 import utils
