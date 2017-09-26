@@ -7,6 +7,14 @@ import logging
 import os
 import pickle
 import sys
+import subprocess
+
+FORMAT = "%(asctime)s %(levelname)8s:[%(filename)s:%(lineno)s - %(funcName)20s()] %(message)s"
+logging.basicConfig(level=logging.DEBUG,
+                    format=FORMAT,
+                    datefmt='%m-%d %H:%M:%S',
+                    filename='./idea_relations.log',
+                    filemode='w')
 
 import dateutil.parser
 
@@ -17,8 +25,6 @@ import output_analyzer
 import preprocessing
 
 is_windows = os.name == 'nt'
-
-logging.basicConfig(level=logging.INFO)
 
 STEPS = 4
 
@@ -149,8 +155,11 @@ def main(args=None, parse_args=True):
             if not os.path.exists(os.path.join(args.mallet_bin_dir, 'mallet')):
                 sys.exit("Error: Unable to find mallet at %s" % args.mallet_bin_dir)
             if is_windows:
-                rtn_code = os.system(".\mallet.bat %s %s %d" % (args.mallet_bin_dir, data_output_dir, num_ideas))
+                subprocess.call(".\mallet.bat %s %s %d" % (args.mallet_bin_dir, data_output_dir, num_ideas),
+                                stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             else:
+                subprocess.call("./mallet.sh %s %s %d" % (args.mallet_bin_dir, data_output_dir, num_ideas),
+                                shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
                 os.system("./mallet.sh %s %s %d" % (args.mallet_bin_dir,
                                                     data_output_dir,
                                                     num_ideas))
@@ -176,12 +185,13 @@ def main(args=None, parse_args=True):
 
     if is_subprocess: print("Status:3")
 
+    default_time = datetime.datetime(1, 1, 1)
+
+    start = dateutil.parser.parse(str(args.start_time), default=default_time)
+    end = dateutil.parser.parse(str(args.end_time), default=default_time)
+
     if is_subprocess:
         # Output for the visualizer
-        default_time = datetime.datetime(1, 1, 1)
-
-        start = dateutil.parser.parse(str(args.start_time), default=default_time)
-        end = dateutil.parser.parse(str(args.end_time), default=default_time)
 
         data = output_analyzer.get_output(args, articles, idea_names, cooccur_func, name=args.prefix,
                                           group_by=args.group_by, start_time=start, end_time=end)

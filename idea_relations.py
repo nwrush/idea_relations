@@ -321,7 +321,7 @@ def generate_all_outputs(articles, num_ideas, idea_names, prefix,
         os.makedirs(figure_dir)
         os.makedirs(table_dir)
     info = {}
-    ## Plot figure 1.a, save in joint_file
+    # Plot figure 1.a, save in joint_file
     pmi, ts_corr, joint_file = generate_scatter_dist_plot(
         articles, num_ideas,
         figure_dir, prefix,
@@ -340,7 +340,7 @@ def generate_all_outputs(articles, num_ideas, idea_names, prefix,
     info["average_file"] = average_file
     
     # generate figures
-    ## Plot the figures on page 2, save them to the locations in filename_map
+    # Plot the figures on page 2, save them to the locations in filename_map
     filename_map = plot_top_pairs(articles, idea_names, prefix, num_ideas,
                                   strength_file, figure_dir,
                                   top=5,

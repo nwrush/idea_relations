@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import os
+import sys
 import gzip
 import json
 import io
@@ -18,7 +19,17 @@ def get_datetime(date, default=datetime.datetime(1, 1, 1)):
 
 
 def get_date_key(date, group_by="month"):
-    assert isinstance(date, datetime.datetime)
+    try:
+        if isinstance(date, int):
+            date = dateutil.parser.parse(str(date), default=datetime.datetime(1, 1, 1))
+        elif isinstance(date, str):
+            date = dateutil.parser.parse(date, default=datetime.datetime(1,1,1))
+
+        assert isinstance(date, datetime.datetime)
+    except Exception as ex:
+        print("Error couldn't interpret {0} as a datetime.".format(date), file=sys.stderr)
+        raise ex
+
     if group_by == "month":
         key = date.year*100 + date.month
     elif group_by == "year":
